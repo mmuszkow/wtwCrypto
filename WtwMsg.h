@@ -10,9 +10,6 @@ namespace wtwCrypto {
 		void alloc(const wtwMessageDef& msg);
 		void dealloc();
 	public:
-		// for encrypted messages
-		static const int PACKET_HEADER_LEN = 4;
-
 		WtwMsg() {}
 
 		WtwMsg(const WtwMsg& msg) {

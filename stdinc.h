@@ -16,8 +16,10 @@
 
 #include <ctime>
 #include <windows.h>
+#include "resource.h"
 
 static const wchar_t MIDL[] = L"CRPT";
+static INT_PTR bkBrush = reinterpret_cast<INT_PTR>(GetStockObject(WHITE_BRUSH));
 
 #include "plInterface.h"
 

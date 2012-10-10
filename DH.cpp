@@ -5,7 +5,7 @@
 #undef SystemFunction036
 
 #include "DH.h"
-#include <openssl/bn.h>
+//#include <openssl/bn.h>
 
 namespace wtwCrypto {
 	const BYTE DH::PRIME[KEYSIZEBYTES] = {
@@ -52,7 +52,7 @@ namespace wtwCrypto {
 		const BYTE *pbMod, DWORD cbMod, 
 		BYTE *pbResult) {	
 		
-		BIGNUM* base = BN_bin2bn(pbBase, cbMod, NULL);
+		/*BIGNUM* base = BN_bin2bn(pbBase, cbMod, NULL);
 		BIGNUM* expo = BN_bin2bn(pbExpo, cbExpo, NULL);
 		BIGNUM* mod = BN_bin2bn(pbMod, cbMod, NULL);
 		BIGNUM* res = BN_new();
@@ -77,7 +77,8 @@ namespace wtwCrypto {
 		if(res) BN_free(res);
 		if(ctx)	BN_CTX_free(ctx);
 
-		return ret;
+		return ret;*/
+		return 0;
 	}
 
 	void DH::recreateKeys() {
