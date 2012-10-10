@@ -1,0 +1,6 @@
+LIBRARY	"wtwCrypto"
+
+EXPORTS
+	queryPlugInfo
+	pluginLoad
+	pluginUnload
