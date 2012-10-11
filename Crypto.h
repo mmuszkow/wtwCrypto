@@ -9,8 +9,8 @@
 namespace wtwCrypto {
 
 	class Crypto {
-		AES		aes;
-		DH		dh;
+		AES				aes;
+		DH				dh;
 		wtwContactDef	cnt;
 	public:
 		Crypto() {

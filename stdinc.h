@@ -16,12 +16,13 @@
 
 #include <ctime>
 #include <windows.h>
+
 #include "resource.h"
+
+#include "plInterface.h"
 
 static const wchar_t MIDL[] = L"CRPT";
 static INT_PTR bkBrush = reinterpret_cast<INT_PTR>(GetStockObject(WHITE_BRUSH));
-
-#include "plInterface.h"
 
 static BYTE char2hex(const wchar_t c) {
 	switch(c) {
