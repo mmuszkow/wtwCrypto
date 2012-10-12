@@ -8,7 +8,6 @@ namespace wtwCrypto {
 
 	AES::~AES() {
 		WTWFUNCTIONS* wtw = PluginController::getInstance().getWTWFUNCTIONS();
-
 		if(wtwEncKey) wtw->fnCall(WTW_CRYPTO_AES_FREE_KEY, reinterpret_cast<WTW_PARAM>(wtwEncKey), 0);
 		if(wtwDecKey) wtw->fnCall(WTW_CRYPTO_AES_FREE_KEY, reinterpret_cast<WTW_PARAM>(wtwDecKey), 0);
 	}
@@ -25,7 +24,10 @@ namespace wtwCrypto {
 		wtwEncKey = reinterpret_cast<void*>(
 			wtw->fnCall(WTW_CRYPTO_AES_EXPAND_KEY, info, 0));
 
-		if(!wtwEncKey) __LOG_F(wtw, WTW_LOG_LEVEL_ERROR, MIDL, L"Expanding encryption AES key failed");
+		if(wtwEncKey)
+			memcpy(encKey, key, AESKEYSIZEBYTES);
+		else
+			__LOG_F(wtw, WTW_LOG_LEVEL_ERROR, MIDL, L"Expanding encryption AES key failed");
 	}
 
 	void AES::setDecryptionKey(const BYTE* key) {
@@ -40,7 +42,10 @@ namespace wtwCrypto {
 		wtwDecKey = reinterpret_cast<void*>(
 			wtw->fnCall(WTW_CRYPTO_AES_EXPAND_KEY, info, 0));
 
-		if(!wtwDecKey) __LOG_F(wtw, WTW_LOG_LEVEL_ERROR, MIDL, L"Expanding decryption AES key failed");
+		if(wtwDecKey)
+			memcpy(decKey, key, AESKEYSIZEBYTES);
+		else
+			__LOG_F(wtw, WTW_LOG_LEVEL_ERROR, MIDL, L"Expanding decryption AES key failed");
 	}
 
 	bool AES::encrypt(ByteBuffer& buff) const {

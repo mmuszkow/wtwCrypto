@@ -10,53 +10,24 @@ namespace wtwCrypto {
 
 	class Crypto {
 		AES				aes;
-		DH				dh;
-		wtwContactDef	cnt;
 	public:
-		Crypto() {
+		Crypto() {}
+		Crypto(const Crypto& other) {
+			aes = other.aes;
 		}
-
-		Crypto(const wtwContactDef& cnt) {
-			this->cnt.id = _wcsdup(cnt.id);
-			this->cnt.netId = cnt.netId;
-			this->cnt.netClass = _wcsdup(cnt.netClass);
+		Crypto(const wchar_t* aesKeyHex) {
+			BYTE key[DH::KEYSIZEBYTES];
+			if(DH::hex2key(aesKeyHex, key)) {
+				aes.setEncryptionKey(key);
+				aes.setDecryptionKey(key);
+			}
 		}
-
-		Crypto(const Crypto& c2) {
-			if(c2.cnt.id)
-				this->cnt.id = _wcsdup(c2.cnt.id);
-			this->cnt.netId = c2.cnt.netId;
-			if(c2.cnt.netClass)
-				this->cnt.netClass = _wcsdup(c2.cnt.netClass);
-		}
-
-		~Crypto() {
-			if(cnt.id) free((void*)cnt.id);
-			if(cnt.netClass) free((void*)cnt.netClass);
-		}
-
-		Crypto& operator=(const Crypto& c2) {
-			if(cnt.id) free((void*)cnt.id);
-			if(cnt.netClass) free((void*)cnt.netClass);
-
-			if(c2.cnt.id)
-				this->cnt.id = _wcsdup(c2.cnt.id);
-			this->cnt.netId = c2.cnt.netId;
-			if(c2.cnt.netClass)
-				this->cnt.netClass = _wcsdup(c2.cnt.netClass);
-
+		Crypto& operator=(const Crypto& other) {
+			if(this == &other) return *this;
+			aes = other.aes;
 			return *this;
 		}
-
-		void send(const wtwMessageDef& msg);
+		WTW_PTR send(const wtwMessageDef& msg);
 		WTW_PTR recv(const wtwMessageDef& msg);
-
-		inline bool hasKey() const {
-			return dh.getSessionKey() != NULL;
-		}
-
-		inline const wtwContactDef& getCnt() const {
-			return cnt;
-		}
 	};
 };
