@@ -80,9 +80,9 @@ def find_generator_and_safe_prime(bits, gen_max_bits = False):
 				print '\n' + str(number.size(g)) + ' bits generator g found'
 				return p, g
 
-p,g = find_generator_and_safe_prime(1024, True)
-p_file = open('PRIME.bin', 'wb')
-g_file = open('GENERATOR.bin', 'wb')
+p,g = find_generator_and_safe_prime(4096, True)
+p_file = open('PRIME_4096.bin', 'wb')
+g_file = open('GENERATOR_4096.bin', 'wb')
 p_file.write(number.long_to_bytes(p))
 g_file.write(number.long_to_bytes(g))
 p_file.close()

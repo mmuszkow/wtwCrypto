@@ -19,11 +19,13 @@ namespace wtwCrypto {
 			wtwEncKey = wtwDecKey = NULL;
 		}
 		AES(const AES& other) {
+			wtwEncKey = wtwDecKey = NULL;
 			setEncryptionKey(other.encKey);
 			setDecryptionKey(other.decKey);
 		}
 		AES(const wchar_t* aesKeyHex) {
 			BYTE key[DH::KEYSIZEBYTES];
+			wtwEncKey = wtwDecKey = NULL;
 			if(DH::hex2key(aesKeyHex, key)) {
 				setEncryptionKey(key);
 				setDecryptionKey(key);

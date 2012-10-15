@@ -52,17 +52,21 @@ END
 // Dialog
 //
 
-IDD_KEYDLG DIALOGEX 0, 0, 234, 65
+IDD_KEYDLG DIALOGEX 0, 0, 234, 130
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Ustalanie klucza"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    EDITTEXT        IDC_MYPUBKEY,7,17,166,14,ES_AUTOHSCROLL | ES_READONLY
-    LTEXT           "Przekaz ten klucz 2 stronie:",IDC_STATIC,7,7,91,8
-    PUSHBUTTON      "Generuj",IDC_GENKEY,176,17,51,14
-    LTEXT           "Wpisz klucz, który otrzymales od 2 strony:",IDC_STATIC,7,35,139,8
-    EDITTEXT        IDC_HISPUBKEY,7,44,166,14,ES_AUTOHSCROLL | WS_DISABLED
-    PUSHBUTTON      "Importuj",IDC_IMPORTKEY,176,44,51,14,WS_DISABLED
+    GROUPBOX        "Bezpieczna wymiana klucza (Diffie-Hellman):",IDC_STATIC,7,7,220,72
+    EDITTEXT        IDC_MYPUBKEY,13,31,158,14,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Przekaz ten klucz 2 stronie:",IDC_STATIC,13,20,158,8
+    PUSHBUTTON      "Generuj",IDC_DH_GEN,173,31,47,14
+    LTEXT           "Wpisz klucz, który otrzymales od 2 strony:",IDC_STATIC,13,48,158,8
+    EDITTEXT        IDC_HISPUBKEY,13,58,158,14,ES_AUTOHSCROLL | WS_DISABLED
+    PUSHBUTTON      "Importuj",IDC_DH_IMPORT,173,58,47,14,WS_DISABLED
+    GROUPBOX        "Bezposredni import klucza (niebezpieczne):",IDC_STATIC,7,86,220,37
+    EDITTEXT        IDC_AES_KEY,13,102,158,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Importuj",IDC_AES_IMPORT,173,102,47,14
 END
 
 
@@ -79,7 +83,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 227
         TOPMARGIN, 7
-        BOTTOMMARGIN, 58
+        BOTTOMMARGIN, 123
     END
 END
 #endif    // APSTUDIO_INVOKED
