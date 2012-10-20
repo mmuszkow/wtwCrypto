@@ -7,9 +7,10 @@
 namespace wtwCrypto {
 	// 256-bit AES using wtwCrypto.h
 	class AES {
+	public:
 		static const int AESKEYSIZEBITS = 256;
 		static const int AESKEYSIZEBYTES = AESKEYSIZEBITS >> 3;
-
+	private:
 		void*	wtwEncKey;
 		void*	wtwDecKey;
 		BYTE	encKey[AESKEYSIZEBYTES];

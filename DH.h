@@ -40,7 +40,7 @@ namespace wtwCrypto {
 			return NULL;
 		}
 
-		static std::wstring key2hex(const BYTE* key);
+		static std::wstring key2hex(const BYTE* key, const int len = KEYSIZEBYTES);
 		static bool hex2key(const std::wstring& hex, BYTE* key);
 
 		static BOOL ModExpo(

@@ -93,20 +93,23 @@ namespace wtwCrypto {
 		publicKeyGenerated = true;
 	}
 
-	std::wstring DH::key2hex(const BYTE* key) {
-		wchar_t hex[(DH::KEYSIZEBYTES<<1) + 1];
-		wchar_t bhex[4];
+	std::wstring DH::key2hex(const BYTE* key, const int len) {
+		wchar_t bhex[4];	
 		
-		if(!key) return L"ERROR";
+		if(!key) 
+			return L"ERROR";
 
-		for(int i=0; i<DH::KEYSIZEBYTES; i++) {
+		wchar_t* hex = new wchar_t[(len<<1) + 1];
+		for(int i=0; i<len; i++) {
 			swprintf_s(bhex, 3, L"%.2X", key[i]);
 			hex[i<<1] = bhex[0];
 			hex[(i<<1)+1] = bhex[1];
 		}
-		hex[DH::KEYSIZEBYTES<<1] = 0;
+		hex[len<<1] = 0;
 
-		return hex;
+		std::wstring res(hex);
+		delete [] hex;
+		return res;
 	}
 
 	bool DH::hex2key(const std::wstring& hex, BYTE* key) {
