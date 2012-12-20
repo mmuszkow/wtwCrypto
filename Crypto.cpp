@@ -6,6 +6,16 @@
 #include "CRC32.h"
 
 namespace wtwCrypto {
+	Crypto::Crypto(const wchar_t* aesKeyHex) {
+		BYTE key[AES::AESKEYSIZEBYTES];
+		if(hex2key(aesKeyHex, key, AES::AESKEYSIZEBYTES)) {
+			aes.setEncryptionKey(key);
+			aes.setDecryptionKey(key);
+		} else {
+			__LOG_F(PluginController::getInstance().getWTWFUNCTIONS(), 
+				WTW_LOG_LEVEL_ERROR, MIDL, L"Wrong AES key format");
+		}
+	}
 	
 	WTW_PTR Crypto::send(const wtwMessageDef& msg) {
 		WTWFUNCTIONS* wtw = PluginController::getInstance().getWTWFUNCTIONS();

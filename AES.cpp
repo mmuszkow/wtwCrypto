@@ -6,6 +6,18 @@
 
 namespace wtwCrypto {
 
+	AES::AES(const wchar_t* aesKeyHex) {
+		BYTE key[DH::KEYSIZEBYTES];
+		wtwEncKey = wtwDecKey = NULL;
+		if(hex2key(aesKeyHex, key, AES::AESKEYSIZEBYTES)) {
+			setEncryptionKey(key);
+			setDecryptionKey(key);
+		} else {
+			__LOG_F(PluginController::getInstance().getWTWFUNCTIONS(), 
+				WTW_LOG_LEVEL_ERROR, MIDL, L"Wrong AES key format");
+		}
+	}
+
 	AES::~AES() {
 		WTWFUNCTIONS* wtw = PluginController::getInstance().getWTWFUNCTIONS();
 		if(wtwEncKey) wtw->fnCall(WTW_CRYPTO_AES_FREE_KEY, reinterpret_cast<WTW_PARAM>(wtwEncKey), 0);

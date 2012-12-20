@@ -15,13 +15,7 @@ namespace wtwCrypto {
 		Crypto(const Crypto& other) {
 			aes = other.aes;
 		}
-		Crypto(const wchar_t* aesKeyHex) {
-			BYTE key[DH::KEYSIZEBYTES];
-			if(DH::hex2key(aesKeyHex, key)) {
-				aes.setEncryptionKey(key);
-				aes.setDecryptionKey(key);
-			}
-		}
+		Crypto(const wchar_t* aesKeyHex);
 		Crypto& operator=(const Crypto& other) {
 			if(this == &other) return *this;
 			aes = other.aes;

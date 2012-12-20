@@ -202,3 +202,5 @@ static const wchar_t* CryptoLastErr() {
 }
 */
 
+std::wstring key2hex(const BYTE* key, const int len);
+bool hex2key(const std::wstring& hex, BYTE* key, const int keyLen);

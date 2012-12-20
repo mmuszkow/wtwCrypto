@@ -24,14 +24,7 @@ namespace wtwCrypto {
 			setEncryptionKey(other.encKey);
 			setDecryptionKey(other.decKey);
 		}
-		AES(const wchar_t* aesKeyHex) {
-			BYTE key[DH::KEYSIZEBYTES];
-			wtwEncKey = wtwDecKey = NULL;
-			if(DH::hex2key(aesKeyHex, key)) {
-				setEncryptionKey(key);
-				setDecryptionKey(key);
-			}
-		}
+		AES(const wchar_t* aesKeyHex);
 		AES& operator=(const AES& other) {
 			if(this == &other) return *this;
 			setEncryptionKey(other.encKey);
