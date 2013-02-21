@@ -1487,10 +1487,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CRC32.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Crypto.h"
 				>
 			</File>
