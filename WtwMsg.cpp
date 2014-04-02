@@ -3,7 +3,6 @@
 #include "WtwMsg.h"
 #include "PluginController.h"
 #include "ByteBuffer.h"
-#include "CRC32.h"
 
 namespace wtwCrypto {
 	void WtwMsg::alloc(const wtwMessageDef& msg) {

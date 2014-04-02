@@ -3,16 +3,17 @@
 #include "PluginController.h"
 #include "Crypto.h"
 #include "WtwMsg.h"
+#include "AES.h"
 
 namespace wtwCrypto {
     Crypto::Crypto(const wchar_t* aesKeyHex) {
-        BYTE key[AES::AESKEYSIZEBYTES];
-        if(hex2key(aesKeyHex, key, AES::AESKEYSIZEBYTES)) {
+        BYTE key[AES::KEYSIZEBYTES];
+        if(hex2key(aesKeyHex, key, AES::KEYSIZEBYTES)) {
             aes.setEncryptionKey(key);
             aes.setDecryptionKey(key);
         } else {
             __LOG_F(PluginController::getInstance().getWTWFUNCTIONS(), 
-                WTW_LOG_LEVEL_ERROR, MIDL, L"Wrong AES key format");
+                WTW_LOG_LEVEL_ERROR, MDL, L"Wrong AES key format");
         }
     }
     
