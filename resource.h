@@ -7,9 +7,13 @@
 #define IDC_DH_GEN                      1002
 #define IDC_HISPUBKEY                   1003
 #define IDC_DH_IMPORT                   1004
+#define IDC_GROUP_NAME					1005
+#define MY_KEY_LABEL					1006
 #define IDC_AES_KEY                     1007
 #define IDC_AES_IMPORT                  1008
 #define IDC_AES_GEN                     1009
+#define OTHER_KEY_LABEL					1010
+#define DIRECT_LABEL					1011
 
 // Next default values for new objects
 // 
