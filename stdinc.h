@@ -20,6 +20,10 @@
 #include <ctime>
 #include <windows.h>
 
+#define SystemFunction036 NTAPI SystemFunction036
+#include <NTSecAPI.h> // for RtlGenRandom
+#undef SystemFunction036
+
 #include "resource.h"
 
 static const wchar_t MDL[] = L"CRPT";

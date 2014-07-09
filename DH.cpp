@@ -1,9 +1,5 @@
 #include "stdinc.h"
 
-#define SystemFunction036 NTAPI SystemFunction036
-#include <NTSecAPI.h> // for RtlGenRandom
-#undef SystemFunction036
-
 #include "DH.h"
 #include <openssl/bn.h>
 
@@ -75,7 +71,7 @@ namespace wtwCrypto {
         if(expo) BN_free(expo);
         if(mod) BN_free(mod);
         if(res) BN_free(res);
-        if(ctx)    BN_CTX_free(ctx);
+        if(ctx) BN_CTX_free(ctx);
 
         return ret;
     }

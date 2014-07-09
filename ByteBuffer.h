@@ -5,63 +5,79 @@
 #pragma comment(lib, "Crypt32.lib")
 
 namespace wtwCrypto {
-    class ByteBuffer {
+    class AesBuffer {
+	public:
+		static const int IVSIZEBYTES = 16;
+	private:
+		BYTE	 iv[IVSIZEBYTES];
         BYTE*    data;
         DWORD    len;
     public:
-        ByteBuffer() {
-            data = NULL;
-            len = 0;
-        }
+		AesBuffer() : data(NULL), len(0) { 
+			int z = 4;
+			int a = 3;
+		}
 
         // parameters must be in this order
-        ByteBuffer(bool base64, const std::wstring& str) {
+		AesBuffer(bool base64, const std::wstring& str) : data(NULL), len(0) {
             if(str.size() > 0) {
+				// decode AES buffer
                 if(base64) {
                     if(CryptStringToBinary(str.c_str(), str.size(), CRYPT_STRING_BASE64, NULL, &len, NULL, NULL) == FALSE) {
-                        len = 0;
-                        data = NULL;
+						len = 0;
                         return;
                     }
 
-                    data = new BYTE[len];
+					if (len <= IVSIZEBYTES) {
+						len = 0;
+						data = NULL;
+						return;
+					}
+
+					data = new BYTE[len];
                     if(CryptStringToBinary(str.c_str(), str.size(), CRYPT_STRING_BASE64, data, &len, NULL, NULL) == FALSE) {
                         len = 0;
                         delete [] data;
                         data = NULL;
                         return;
                     }
+
+					// extract IV, TODO: is this safe?
+					len -= IVSIZEBYTES;
+					memcpy(iv, data, IVSIZEBYTES);
+					memcpy(data, data + IVSIZEBYTES, len);
                 } else {
+					// create AES buffer from utf-16 string
                     len = (str.size()<<1) + 2;
-                    data = new BYTE[len];
+                    data = new BYTE[len + 16];
                     memcpy(data, str.c_str(), len);
+
+					//RtlGenRandom(iv, IVSIZEBYTES); // TODO
+					memset(iv, 0, IVSIZEBYTES);
                 }
-            } else {
-                len = 0;
-                data = NULL;
             }
         }
 
-        ByteBuffer(const ByteBuffer& b2) {
+		AesBuffer(const AesBuffer& b2) {
             data = NULL;
             this->len = 0;
-            assign(b2.data, b2.len);
+            assign(b2.data, b2.len, b2.iv);
         }
 
-        ByteBuffer(const BYTE* arr, DWORD len) {
+		AesBuffer(const BYTE* arr, DWORD len, const BYTE* iv) {
             data = NULL;
             this->len = 0;
-            assign(arr, len);
+            assign(arr, len, iv);
         }
 
-        ~ByteBuffer() {
+		~AesBuffer() {
             if(data) delete [] data;
         }
 
-        ByteBuffer& operator=(const ByteBuffer& b2) {
+		AesBuffer& operator=(const AesBuffer& b2) {
             if(this == &b2) return *this;
             if(data) delete [] data;
-            assign(b2.data, b2.len);
+            assign(b2.data, b2.len, b2.iv);
             return *this;
         }
 
@@ -73,9 +89,16 @@ namespace wtwCrypto {
             return data;
         }
 
-        void assign(const BYTE* arr, DWORD len) {
+		inline BYTE* getIV() {
+			return iv;
+		}
+
+        void assign(const BYTE* arr, DWORD len, const BYTE* iv) {
             BYTE* prevData = data;
-            if(len && arr) {
+			if (len && arr && iv) {
+				if (this->iv != iv)
+					memcpy(this->iv, iv, IVSIZEBYTES);
+
                 DWORD prevLen = this->len;
                 data = new BYTE[len];
                 this->len = len;
@@ -101,22 +124,31 @@ namespace wtwCrypto {
             while(newLen % 16 != 0) 
                 newLen++;
 
-            assign(data, newLen);
+            assign(data, newLen, iv);
         }
 
         std::wstring toBase64() const {
+			// combine IV and data
+			BYTE* all = new BYTE[IVSIZEBYTES + len];
+			memcpy(all, iv, IVSIZEBYTES);
+			memcpy(all + IVSIZEBYTES, data, len);			
+
             DWORD strLen;
-            if(CryptBinaryToString(data, len, CRYPT_STRING_BASE64|CRYPT_STRING_NOCRLF, NULL, &strLen) == FALSE)
-                return L"";
+			if (CryptBinaryToString(all, IVSIZEBYTES + len, CRYPT_STRING_BASE64 | CRYPT_STRING_NOCRLF, NULL, &strLen) == FALSE) {
+				delete [] all;
+				return L"";
+			}
             
             wchar_t* str = new wchar_t[strLen];
-            if(CryptBinaryToString(data, len, CRYPT_STRING_BASE64|CRYPT_STRING_NOCRLF, str, &strLen) == FALSE) {
+			if (CryptBinaryToString(data, IVSIZEBYTES + len, CRYPT_STRING_BASE64 | CRYPT_STRING_NOCRLF, str, &strLen) == FALSE) {
                 delete [] str;
+				delete [] all;
                 return L"";
-            }
+            }			
 
             std::wstring ret(str);
             delete [] str;
+			delete [] all;
             return ret;
         }
     };

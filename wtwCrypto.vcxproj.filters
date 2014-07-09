@@ -173,6 +173,9 @@
     <ClInclude Include="WtwMsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MtRand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="wtwCrypto.rc">

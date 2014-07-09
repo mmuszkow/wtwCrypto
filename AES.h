@@ -48,7 +48,7 @@ namespace wtwCrypto {
 		void setDecryptionKey(const BYTE* key);
 
 		// buff in both cases must be padded to 16 bytes
-		bool encrypt(ByteBuffer& buff) const;
-		bool decrypt(ByteBuffer& buff) const;
+		bool encrypt(AesBuffer& buff) const;
+		bool decrypt(AesBuffer& buff) const;
 	};
 };

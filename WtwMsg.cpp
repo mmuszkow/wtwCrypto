@@ -39,7 +39,7 @@ namespace wtwCrypto {
 		WTWFUNCTIONS* wtw = PluginController::getInstance().getWTWFUNCTIONS();
 
 		if(wtwMsg.msgMessage) {
-			ByteBuffer buff(false, wtwMsg.msgMessage);
+			AesBuffer buff(false, wtwMsg.msgMessage);
 			buff.padTo16bytes();
 			if(aesCtx.encrypt(buff)) {
 				free((void*)wtwMsg.msgMessage);
@@ -54,7 +54,7 @@ namespace wtwCrypto {
 
 		if(wtwMsg.msgMessage && wtwMsg.msgMessage[0] != 0) {
 			// decrypt what's inside base64
-			ByteBuffer buff(true, wtwMsg.msgMessage);
+			AesBuffer buff(true, wtwMsg.msgMessage);
 			if(buff.size() % 16 == 0) {
 				if(aesCtx.decrypt(buff)) {
 					free((void*)wtwMsg.msgMessage);

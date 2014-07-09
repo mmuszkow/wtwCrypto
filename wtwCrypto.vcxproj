@@ -426,6 +426,7 @@
     <ClInclude Include="CRC32.h" />
     <ClInclude Include="Crypto.h" />
     <ClInclude Include="DH.h" />
+    <ClInclude Include="MtRand.h" />
     <ClInclude Include="PluginController.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdinc.h" />
